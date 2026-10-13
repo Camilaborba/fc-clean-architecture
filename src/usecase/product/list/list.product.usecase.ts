@@ -7,8 +7,8 @@ import Product from "../../../domain/product/entity/product";
 
 export default class ListProductUseCase {
   private productRepository: ProductRepositoryInterface;
-  constructor(ProductRepository: ProductRepositoryInterface) {
-    this.productRepository = ProductRepository;
+  constructor(productRepository: ProductRepositoryInterface) {
+    this.productRepository = productRepository;
   }
 
   async execute(input: InputListProductDto): Promise<OutputListProductDto> {

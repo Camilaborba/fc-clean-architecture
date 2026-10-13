@@ -5,23 +5,23 @@ import {
 } from "./update.product.dto";
 
 export default class UpdateProductUseCase {
-    private ProductRepository: ProductRepositoryInterface;
+    private productRepository: ProductRepositoryInterface;
 
 
-    constructor(ProductRepository: ProductRepositoryInterface) {
-        this.ProductRepository = ProductRepository;
+    constructor(productRepository: ProductRepositoryInterface) {
+        this.productRepository = productRepository;
     }
 
     async execute(
         input: InputUpdateProductDto
     ): Promise<OutputUpdateProductDto> {
 
-        const product = await this.ProductRepository.find(input.id);
+        const product = await this.productRepository.find(input.id);
 
         product.changeName(input.name);
         product.changePrice(input.price);
 
-        await this.ProductRepository.update(product);
+        await this.productRepository.update(product);
 
         return {
             id: product.id,
