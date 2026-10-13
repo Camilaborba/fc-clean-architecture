@@ -32,21 +32,19 @@ describe("Valide os fluxos do caso de uso", () => {
     const result = await usecase.execute(input);
 
     expect(result).toEqual(output);
+    expect(productRepository.find).toHaveBeenCalledWith("1");
   });
 
   it("Produto não cadastrado", async () => {
     const productRepository = MockRepository();
-    productRepository.find.mockImplementation(() => {
-      throw new Error("Product not found");
-    });
+    productRepository.find.mockRejectedValue(new Error("Product not found"));
     const usecase = new FindProductUseCase(productRepository);
 
     const input = {
       id: "123",
     };
 
-    expect(() => {
-      return usecase.execute(input);
-    }).rejects.toThrow("Product not found");
+    await expect(usecase.execute(input)).rejects.toThrow("Product not found");
+    expect(productRepository.find).toHaveBeenCalledWith("123");
   });
 });
